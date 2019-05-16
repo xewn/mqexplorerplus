@@ -26,7 +26,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
     [Export(typeof(OpenQueueManagerViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
     public sealed class OpenQueueManagerViewModel : ModalViewModel
     {
-        private string _queueManagerName;
+        private string _queueManagerName="QMESB";
         private string _queueNamePrefixFilter;
         private bool _isRemote = true;
         private bool _showObjectFilter = true;
@@ -256,10 +256,10 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
     public sealed class RemoteConfiguration : ValidatableBindableBase
     {
-        private string _host;
-        private int _port;
-        private string _channel;
-        private string _userId;
+        private string _host= "10.11.0.57";
+        private int _port=1414;
+        private string _channel= "SVRCONN.TCDM";
+        private string _userId= "ICPTestUser";
         private SecureString _password;
 
         [Required]

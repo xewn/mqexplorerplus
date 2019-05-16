@@ -46,7 +46,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
         public const int DefaultBrowseLimit = 500;
         public const bool DefaultBrowseMultiThread = false;
         public const int DefaultPort = 1414;
-        public const string DefaultChannel = "SYSTEM.ADMIN.SVRCONN";
+        public const string DefaultChannel = "SVRCONN.TCDM";
         public const int DefaultPutPriority = 5;
         public const int DefaultAutoRefreshInterval = 15;
         public const string DefaultQueueDepthWarningThreshold = "80%";
