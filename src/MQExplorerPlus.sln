@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotc.Wpf", "Dotc.Wpf\Dotc.W
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Dotc.MQExplorerPlus.Setup", "Dotc.MQExplorerPlus.Setup\Dotc.MQExplorerPlus.Setup.wixproj", "{DFD84D81-E3F4-4C8B-B578-B3A4A156A3B3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Test", "5. Test", "{DE1E376C-CF1A-4F94-BAF4-3DC8E7BED8B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

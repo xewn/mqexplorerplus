@@ -63,7 +63,11 @@ namespace Dotc.MQExplorerPlus.Core.Services
 
         private CountdownService _countdown;
         public CountdownService Countdown { get { return _countdown; } private set { _countdown = value; } }
-
+        /// <summary>
+        /// 自动刷新消息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _automaticRefreshTimer_Elapsed(object sender, EventArgs e)
         {
             InvokeAutomaticRefresh();

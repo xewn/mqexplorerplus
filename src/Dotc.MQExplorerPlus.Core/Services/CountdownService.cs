@@ -11,6 +11,10 @@ using System.Windows;
 
 namespace Dotc.MQExplorerPlus.Core.Services
 {
+    /// <summary>
+    /// 定时器服务
+    /// 需要给Elapsed赋值handler
+    /// </summary>
     public sealed class CountdownService : BindableBase, IDisposable
     {
         private readonly Timer _countDownDelayTimer;

@@ -93,7 +93,10 @@ namespace Dotc.MQ.Websphere
             data.AddOrReplace("Queue", this.Name);
             data.AddOrReplace("Connection", this.QueueManager.ConnectionInfo);
         }
-
+        /// <summary>
+        /// 清空消息队列中该队列的所有消息，****慎用
+        /// </summary>
+        /// <param name="truncateMode"></param>
         public void ClearQueue(bool truncateMode)
         {
 
@@ -617,6 +620,12 @@ namespace Dotc.MQ.Websphere
 
         public IDump DumpEngine { get; }
 
+        /// <summary>
+        /// 以读的方式，从队列中取出指定的消息
+        /// </summary>
+        /// <param name="messages"></param>
+        /// <param name="ct"></param>
+        /// <param name="progress"></param>
         public void DeleteMessages(IList<IMessage> messages, CancellationToken ct, IProgress<int> progress = null)
         {
 

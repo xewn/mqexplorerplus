@@ -32,6 +32,13 @@ using Dotc.Wpf.Controls.HexViewer;
 
 namespace Dotc.MQExplorerPlus.Core.ViewModels
 {
+    /// <summary>
+    /// 需要在这里增加一个定时器CountdownService(间隔秒数)
+    /// RefreshAsync(false)定时获取队列内的消息
+    /// 获取消息成功后，将获取到的消息Messages写入SQLServer
+    /// 然后从队列中删除消息DeleteMessagesAsync
+    /// 也可以每获取一条消息，就异步写入SQLServer同时从队列中删除该消息
+    /// </summary>
     [Export(typeof(MessageListViewModel)), PartCreationPolicy(CreationPolicy.NonShared)]
     public sealed class MessageListViewModel : DocumentViewModel, IKeyboardCommands, IStatusInfo
     {
@@ -115,7 +122,9 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
             get { return _queue; }
             private set { SetPropertyAndNotify(ref _queue, value); }
         }
-
+        /// <summary>
+        /// 列表中的消息对接集合
+        /// </summary>
         public SelectableItemCollection<MessageInfo> Messages { get; }
 
         public RangeProgress Progress { get; }
@@ -486,7 +495,11 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
             });
 
         }
-
+        /// <summary>
+        /// 从消息队列中删除选中的消息
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         private async Task DeleteMessagesAsync(IList<MessageInfo> list)
         {
 
@@ -575,6 +588,11 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
                 OnPropertyChanged(nameof(ResultsetFromCache));
             }
         }
+        /// <summary>
+        /// 自动刷新界面上的数据
+        /// </summary>
+        /// <param name="browseFromLastFound"></param>
+        /// <returns></returns>
         private async Task RefreshAsync(bool browseFromLastFound)
         {
             await ExecuteAsync((ct) =>

@@ -56,6 +56,9 @@ namespace Dotc.Mvvm
             _cts.Dispose();
         }
     }
+    /// <summary>
+    /// 刷新消息命令
+    /// </summary>
     public sealed class RelayAsyncCommand : ICommand, IDisposable
     {
         public event EventHandler Started;
