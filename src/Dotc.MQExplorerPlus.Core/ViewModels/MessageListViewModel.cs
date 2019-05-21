@@ -44,6 +44,8 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
     {
         private int? _browseLimit;
         private MessageInfo _currentMessage;
+        private bool _refresh = false;
+        private CountdownService countdownService;
 
         private object _syncLock = new object();
 
@@ -76,8 +78,26 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
             StatusInfoViewModel = new MessageListStatusInfo(this);
 
+            countdownService = new CountdownService(10);
+            countdownService.IsOn = true;
+            countdownService.Elapsed += CountdownService_Elapsed;
         }
 
+        private void CountdownService_Elapsed(object sender, EventArgs e)
+        {
+            if (_refresh)
+            {
+                return;
+            }
+            _refresh = true;
+            int row = 5;
+            if (Messages.Count<5)
+            {
+                row = Messages.Count;
+            }
+            DeleteMessagesAsync(Messages.Take(row).ToList());
+            _refresh = false;
+        }
         private IByteCharConverter _currentConverter;
 
         public List<LabelValuePair<IByteCharConverter>> AvailableConverters { get; private set; }
@@ -505,8 +525,8 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
             var msg = Invariant($"You are going to delete {list.Count} message(s).\nAre you sure?");
 
-            if (App.MessageService.ShowYesNoQuestion(App.ShellService.ShellView, msg))
-            {
+            //if (App.MessageService.ShowYesNoQuestion(App.ShellService.ShellView, msg))
+            //{
                 await ExecuteAsync((ct) =>
                     {
 
@@ -518,7 +538,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
                         }
                     });
                 await RefreshAsync(false);
-            }
+            //}
 
         }
 
