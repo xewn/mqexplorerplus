@@ -48,7 +48,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
         private CountdownService countdownService;
 
         private object _syncLock = new object();
-
+        private HttpHelper httpHelper = new HttpHelper();
         [ImportingConstructor]
         public MessageListViewModel(IMessageListView view, IApplicationController appc)
             : base(view, appc)
@@ -95,7 +95,14 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
             {
                 row = Messages.Count;
             }
-            DeleteMessagesAsync(Messages.Take(row).ToList());
+            var messageInfos = Messages.Take(row).ToList();
+            foreach (var item in messageInfos)
+            {                
+                httpHelper.httpPorsRequest("http://datavin.svnbbs.com/api/app/tcdm/importFlightXmlData", "{ \"xmlContent\": \"" + item.ToString().Replace("\"","\\\"") + "\"}");
+                var deleteMessages = new List<MessageInfo>();
+                deleteMessages.Add(item);
+                DeleteMessagesAsync(deleteMessages);
+            }
             _refresh = false;
         }
         private IByteCharConverter _currentConverter;

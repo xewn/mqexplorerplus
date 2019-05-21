@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="ClipboardHelper.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HttpHelper.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="SqlFormatProvider.cs" />
