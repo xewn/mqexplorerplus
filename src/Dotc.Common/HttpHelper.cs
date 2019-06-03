@@ -109,7 +109,7 @@ namespace Dotc.Common
             request.UserAgent = "User-Agent:Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.202 Safari/535.1";
             request.KeepAlive = true;
             //上面的http头看情况而定，但是下面俩必须加
-            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentType = "application/json";
             request.Method = "POST";
 
             Encoding encoding = Encoding.UTF8;//根据网站的编码自定义
