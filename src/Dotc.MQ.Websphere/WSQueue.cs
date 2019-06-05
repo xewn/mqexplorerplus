@@ -241,6 +241,59 @@ namespace Dotc.MQ.Websphere
             RefreshInfo();
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="messages"></param>
+        public void DeleteMessages(IList<IMessage> messages)
+        {
+
+            if (messages == null) throw new ArgumentNullException(nameof(messages));
+
+            try
+            {
+                var ibmQueue = OpenQueueCore(OpenQueueMode.ForRead);
+
+                try
+                {
+                    var mqGetMsgOpts = new MQGetMessageOptions
+                    {
+                        Options = MQC.MQGMO_FAIL_IF_QUIESCING,
+                        MatchOptions = MQC.MQMO_MATCH_MSG_ID
+                    };
+
+                    int count = 0;
+                    foreach (var m in messages)
+                    {
+                        try
+                        {
+                            var msg = ((WsMessage)m).IbmMessage;
+                            ibmQueue.Get(msg, mqGetMsgOpts);
+
+                            count++;
+                        }
+                        catch (MQException ex)
+                        {
+                            if (ex.ReasonCode == 2033 /* MQRC_NO_MSG_AVAILABLE */)
+                            {
+                            }
+                            else throw;
+                        }
+                    }
+                }
+                finally
+                {
+                    ibmQueue.Close();
+                }
+
+
+            }
+
+            catch (MQException ibmEx)
+            {
+                throw ibmEx.ToMqException(AddExtraInfoToError);
+            }
+        }
+        /// <summary>
         /// 获取消息并消费掉
         /// </summary>
         /// <param name="numberOfMessages"></param>

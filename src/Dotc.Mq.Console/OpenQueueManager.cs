@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dotc.MQExplorerPlus.Core.ViewModels;
 using Dotc.MQ.Websphere;
+using System.Threading;
 
 namespace Dotc.Mq.Console
 {
@@ -21,10 +22,12 @@ namespace Dotc.Mq.Console
         private string _queueNamePrefixFilter;
         private bool _isRemote = true;
         private bool _showObjectFilter = true;
-
+        private int messageCount = 5;
+        private List<string> queueNameList;
         public OpenQueueManager()
         {
             StaticQueueNames = new QueueNames();
+            queueNameList = new List<string>() { "FDDS_TCDM", "ACDMDS_TCDM", "CDMDS_TCDM", "PIDS_PSTA_TCDM" };
         }
 
         public void Initialize(bool remote = true)
@@ -122,25 +125,16 @@ namespace Dotc.Mq.Console
                 QueueManager = _mqFactory.Connect(_queueManagerName, cp);
 
                 //var q = new WsQueue(QueueManager as WsQueueManager, "PIDS_PSTA_TCDM");
-
-
-                var ibmQueue = (QueueManager as WsQueueManager).OpenQueueCore("PIDS_PSTA_TCDM", OpenQueueMode.ForBrowseAndRead);
-                //var ibmQueue = q.OpenQueueCore(OpenQueueMode.ForRead);
-
-
-                var browseOption = MQC.MQGMO_BROWSE_FIRST;
-
-                var getMsgOpts = new MQGetMessageOptions()
-                {
-                    Options = MQC.MQGMO_FAIL_IF_QUIESCING | browseOption
-                };
-                int count = 0;
-                while (5 > 0)
-                {
-                    var msg = new MQMessage();
-                    ibmQueue.Get(msg, getMsgOpts);
-                    getMsgOpts.Options = MQC.MQGMO_FAIL_IF_QUIESCING | MQC.MQGMO_BROWSE_NEXT;
-                    count++;
+                while(true)
+                { 
+                    foreach (var item in queueNameList)
+                    {
+                        System.Console.WriteLine($"读取队列{item}");
+                        var messages = ReadMessage(item);
+                        System.Console.WriteLine($"{item} 一共读取到{messages.Count}条数据");
+                        DeleteMessages(item, messages);
+                    }
+                    Thread.Sleep(500);
                 }
             }
             catch (MqException ex)
@@ -148,7 +142,101 @@ namespace Dotc.Mq.Console
                 System.Console.WriteLine("Connection failed", ex);
             }
         }
+        /// <summary>
+        /// 读取消息
+        /// </summary>
+        /// <param name="queueName"></param>
+        /// <returns></returns>
+        private IList<IMessage> ReadMessage(string queueName)
+        {
+            IList<IMessage> messages = new List<IMessage>();
+            var ibmQueue = (QueueManager as WsQueueManager).OpenQueueCore(queueName, OpenQueueMode.ForBrowseAndRead);
+            try
+            {
+                var browseOption = MQC.MQGMO_BROWSE_FIRST;
 
+                var getMsgOpts = new MQGetMessageOptions()
+                {
+                    Options = MQC.MQGMO_FAIL_IF_QUIESCING | browseOption
+                };
+                int count = messageCount;
+                while (count > 0)
+                {
+                    var msg = new MQMessage();
+                    System.Console.WriteLine($"{queueName} 循环第{count}次");
+                    ibmQueue.Get(msg, getMsgOpts);
+                    var localMsg = new WsMessage(msg);
+                    messages.Add(localMsg);
+                    getMsgOpts.Options = MQC.MQGMO_FAIL_IF_QUIESCING | MQC.MQGMO_BROWSE_NEXT;
+                    count--;
+                }
+            }
+            catch (MQException ex)
+            {
+                if (ex.ReasonCode == 2033 /* MQRC_NO_MSG_AVAILABLE */)
+                {
+                }
+                else throw;
+            }
+            finally
+            {
+                ibmQueue.Close();
+            }
+            return messages;
+        }
+
+        /// <summary>
+        /// 批量删除消息
+        /// </summary>
+        /// <param name="queueName"></param>
+        /// <param name="messages"></param>
+        public void DeleteMessages(string queueName, IList<IMessage> messages)
+        {
+
+            if (messages == null) throw new ArgumentNullException(nameof(messages));
+
+            try
+            {
+                var ibmQueue = (QueueManager as WsQueueManager).OpenQueueCore(queueName, OpenQueueMode.ForRead);
+                try
+                {
+                    var mqGetMsgOpts = new MQGetMessageOptions
+                    {
+                        Options = MQC.MQGMO_FAIL_IF_QUIESCING,
+                        MatchOptions = MQC.MQMO_MATCH_MSG_ID
+                    };
+
+                    int count = 0;
+                    foreach (var m in messages)
+                    {
+                        try
+                        {
+                            var msg = ((WsMessage)m).IbmMessage;
+                            ibmQueue.Get(msg, mqGetMsgOpts);
+
+                            count++;
+                        }
+                        catch (MQException ex)
+                        {
+                            if (ex.ReasonCode == 2033 /* MQRC_NO_MSG_AVAILABLE */)
+                            {
+                            }
+                            else throw;
+                        }
+                    }
+                }
+                finally
+                {
+                    ibmQueue.Close();
+                }
+
+
+            }
+
+            catch (MQException ibmEx)
+            {
+            }
+        }
         public QueueNames StaticQueueNames { get; private set; }
     }
 }
