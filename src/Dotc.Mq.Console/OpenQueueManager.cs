@@ -121,8 +121,27 @@ namespace Dotc.Mq.Console
                 cp.Set(RemoteConfig.Host, RemoteConfig.Port, RemoteConfig.Channel, RemoteConfig.UserId, RemoteConfig.Password);
                 QueueManager = _mqFactory.Connect(_queueManagerName, cp);
 
-                var q = new WsQueue(QueueManager as WsQueueManager, "FDDS_TCDM");
-                q.DeleteMessages(5);
+                //var q = new WsQueue(QueueManager as WsQueueManager, "PIDS_PSTA_TCDM");
+
+
+                var ibmQueue = (QueueManager as WsQueueManager).OpenQueueCore("PIDS_PSTA_TCDM", OpenQueueMode.ForBrowseAndRead);
+                //var ibmQueue = q.OpenQueueCore(OpenQueueMode.ForRead);
+
+
+                var browseOption = MQC.MQGMO_BROWSE_FIRST;
+
+                var getMsgOpts = new MQGetMessageOptions()
+                {
+                    Options = MQC.MQGMO_FAIL_IF_QUIESCING | browseOption
+                };
+                int count = 0;
+                while (5 > 0)
+                {
+                    var msg = new MQMessage();
+                    ibmQueue.Get(msg, getMsgOpts);
+                    getMsgOpts.Options = MQC.MQGMO_FAIL_IF_QUIESCING | MQC.MQGMO_BROWSE_NEXT;
+                    count++;
+                }
             }
             catch (MqException ex)
             {
