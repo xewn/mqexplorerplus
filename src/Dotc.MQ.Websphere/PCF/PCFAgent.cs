@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class PcfAgent : IDisposable
+    public class PcfAgent : IDisposable
     {
         private MQQueueManager _qMgr;
         private readonly bool _tempQueueManager;

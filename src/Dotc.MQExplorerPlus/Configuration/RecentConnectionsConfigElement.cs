@@ -59,7 +59,7 @@ namespace Dotc.MQExplorerPlus.Configuration
 
             if (element != null)
             {
-                element.DeserializeElementInternal(reader);
+                element.DeserializeElementpublic(reader);
                 base.BaseAdd(element);
                 return true;
             }
@@ -72,7 +72,7 @@ namespace Dotc.MQExplorerPlus.Configuration
 
     public class RecentConnectionConfigElement : ConfigurationElement
     {
-        internal RecentConnectionConfigElement(RecentQueueManagerConnection rc) : this()
+        public RecentConnectionConfigElement(RecentQueueManagerConnection rc) : this()
         {
             QueueManagerName = rc.QueueManagerName;
             FilterPrefix = rc.ObjectNamePrefix;
@@ -89,7 +89,7 @@ namespace Dotc.MQExplorerPlus.Configuration
         }
         public Guid Id { get; }
 
-        internal void DeserializeElementInternal(XmlReader reader)
+        public void DeserializeElementpublic(XmlReader reader)
         {
             base.DeserializeElement(reader, false);
         }
@@ -167,7 +167,7 @@ namespace Dotc.MQExplorerPlus.Configuration
 
         public RecentQueueConnectionConfigElement() : base()
         { }
-        internal RecentQueueConnectionConfigElement(RecentQueueConnection rc) : this()
+        public RecentQueueConnectionConfigElement(RecentQueueConnection rc) : this()
         {
             QueueManagerName = rc.QueueManagerName;
             QueueName = rc.QueueName;
@@ -205,7 +205,7 @@ namespace Dotc.MQExplorerPlus.Configuration
 
         public RecentRemoteConnectionConfigElement() : base()
         { }
-        internal RecentRemoteConnectionConfigElement(RecentRemoteQueueManagerConnection rc) : this()
+        public RecentRemoteConnectionConfigElement(RecentRemoteQueueManagerConnection rc) : this()
         {
             QueueManagerName = rc.QueueManagerName;
             FilterPrefix = rc.ObjectNamePrefix;
@@ -285,7 +285,7 @@ namespace Dotc.MQExplorerPlus.Configuration
 
         public RecentRemoteQueueConnectionConfigElement() : base()
         { }
-        internal RecentRemoteQueueConnectionConfigElement(RecentRemoteQueueConnection rc) : this()
+        public RecentRemoteQueueConnectionConfigElement(RecentRemoteQueueConnection rc) : this()
         {
             QueueManagerName = rc.QueueManagerName;
             QueueName = rc.QueueName;

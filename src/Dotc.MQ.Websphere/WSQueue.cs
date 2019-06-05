@@ -20,10 +20,10 @@ using System.Collections;
 namespace Dotc.MQ.Websphere
 {
 
-    internal sealed class WsQueue : ObservableObject, IQueue
+    public sealed class WsQueue : ObservableObject, IQueue
     {
 
-        internal WsQueue(WsQueueManager qmOwner, string queueName)
+        public WsQueue(WsQueueManager qmOwner, string queueName)
         {
             Debug.Assert(queueName != null);
             Debug.Assert(qmOwner != null);
@@ -35,12 +35,12 @@ namespace Dotc.MQ.Websphere
             IsSystemQueue = WsSystemObjectNameFilter.IsSystemQueue(queueName);
         }
 
-        internal int QueueTypeCore { get; set; }
-        internal int DefaultPriority { get; set; }
+        public int QueueTypeCore { get; set; }
+        public int DefaultPriority { get; set; }
 
         public bool IsSystemQueue { get; }
 
-        internal MQQueue OpenQueueCore(OpenQueueMode openMode)
+        public MQQueue OpenQueueCore(OpenQueueMode openMode)
         {
             return ((WsQueueManager)QueueManager).OpenQueueCore(Name, openMode);
         }
@@ -49,7 +49,7 @@ namespace Dotc.MQ.Websphere
         public int? Depth
         {
             get { return _depth; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _depth, value);
             }
@@ -59,7 +59,7 @@ namespace Dotc.MQ.Websphere
         public GetPutStatus? GetStatus
         {
             get { return _getStatus; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _getStatus, value);
             }
@@ -69,7 +69,7 @@ namespace Dotc.MQ.Websphere
         public GetPutStatus? PutStatus
         {
             get { return _putStatus; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _putStatus, value);
             }
@@ -84,7 +84,7 @@ namespace Dotc.MQ.Websphere
         public int Type
         {
             get { return _type; }
-            internal set { SetPropertyAndNotify(ref _type, value); }
+            set { SetPropertyAndNotify(ref _type, value); }
         }
 
 
@@ -154,7 +154,7 @@ namespace Dotc.MQ.Websphere
 
         public bool SupportTruncate => Type == WsQueueType.Local || Type == WsQueueType.Transmission;
 
-        internal IEnumerator<MQMessage> DumpAllMessagesCore(bool leaveMessages)
+        public IEnumerator<MQMessage> DumpAllMessagesCore(bool leaveMessages)
         {
             var ibmQueue = OpenQueueCore(leaveMessages ? OpenQueueMode.ForBrowse : OpenQueueMode.ForRead);
             var mqGetMsgOpts = new MQGetMessageOptions();
@@ -240,7 +240,51 @@ namespace Dotc.MQ.Websphere
 
             RefreshInfo();
         }
+        /// <summary>
+        /// 获取消息并消费掉
+        /// </summary>
+        /// <param name="numberOfMessages"></param>
+        /// <returns></returns>
+        public IEnumerable<IMessage> DeleteMessages(int numberOfMessages)
+        {
+            MQQueue ibmQueue;
+            try
+            {
+                ibmQueue = OpenQueueCore(OpenQueueMode.ForRead);
+            }
+            catch (MQException ibmEx)
+            {
+                throw ibmEx.ToMqException(AddExtraInfoToError);
+            }
 
+            var mqGetMsgOpts = new MQGetMessageOptions { Options = MQC.MQGMO_FAIL_IF_QUIESCING };
+
+            int count = 0;
+
+            while (numberOfMessages > 0)
+            {
+                var msg = new MQMessage();
+                try
+                {
+                    ibmQueue.Get(msg, mqGetMsgOpts);
+                    count++;
+                }
+                catch (MQException ex)
+                {
+                    if (ex.ReasonCode == 2033 /* MQRC_NO_MSG_AVAILABLE */)
+                    {
+                        break;
+                    }
+                    throw ex.ToMqException(AddExtraInfoToError);
+                }
+
+                yield return new WsMessage(msg, this);
+                numberOfMessages--;
+
+            }
+
+            RefreshInfo();
+        }
         private List<WsQueueManager> _browseConnectionPool;
 
         private void SetupBrowseConnectionPool()
@@ -619,7 +663,7 @@ namespace Dotc.MQ.Websphere
         }
 
         public IDump DumpEngine { get; }
-
+        
         /// <summary>
         /// 以读的方式，从队列中取出指定的消息
         /// </summary>
@@ -680,13 +724,12 @@ namespace Dotc.MQ.Websphere
                 throw ibmEx.ToMqException(AddExtraInfoToError);
             }
         }
-
         public IQueue NewConnection()
         {
             return NewConnectionCore();
         }
 
-        internal WsQueue NewConnectionCore()
+        public WsQueue NewConnectionCore()
         {
             var qm = WsQueueManagerFactory.Clone((WsQueueManager)QueueManager);
             return new WsQueue(qm, this.Name);

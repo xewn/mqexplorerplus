@@ -8,7 +8,7 @@ using IBM.WMQ;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class PcfMessageAgent : PcfAgent
+    public class PcfMessageAgent : PcfAgent
     {
 
         public PcfMessageAgent()

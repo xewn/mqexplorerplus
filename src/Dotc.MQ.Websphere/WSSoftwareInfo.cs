@@ -11,7 +11,7 @@ using System;
 
 namespace Dotc.MQ.Websphere
 {
-    internal static class WsSoftwareInfo
+    public static class WsSoftwareInfo
     {
 
         private static void EnsureInit()

@@ -10,10 +10,10 @@ using System.Security;
 
 namespace Dotc.MQ.Websphere
 {
-    internal static class SecureStringHelper
+    public static class SecureStringHelper
     {
 
-        internal static string ConvertToUnsecureString(SecureString securePassword)
+        public static string ConvertToUnsecureString(SecureString securePassword)
         {
             if (securePassword == null)
                 throw new ArgumentNullException(nameof(securePassword));
@@ -29,7 +29,7 @@ namespace Dotc.MQ.Websphere
             }
         }
 
-        internal static SecureString ConvertToSecureString(string password)
+        public static SecureString ConvertToSecureString(string password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));

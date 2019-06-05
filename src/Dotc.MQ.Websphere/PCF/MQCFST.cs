@@ -10,7 +10,7 @@ using IBM.WMQ;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class Mqcfst : PcfParameter
+    public class Mqcfst : PcfParameter
     {
         public  int CodedCharSetId { get; private set; }
         private int _stringLength;
@@ -50,7 +50,7 @@ namespace Dotc.MQ.Websphere.PCF
             return _stringval;
         }
 
-        internal override sealed void Initialize(MQMessage message)
+        public override sealed void Initialize(MQMessage message)
         {
             Type = message.ReadInt4();
             StrucLength = message.ReadInt4();

@@ -10,7 +10,7 @@ using IBM.WMQ;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class Mqcfil : PcfParameter
+    public class Mqcfil : PcfParameter
     {
         private int _count;
         private int[] _values;
@@ -41,7 +41,7 @@ namespace Dotc.MQ.Websphere.PCF
             return _values;
         }
 
-        internal override sealed void Initialize(MQMessage message)
+        public override sealed void Initialize(MQMessage message)
         {
             Type = message.ReadInt4();
             StrucLength = message.ReadInt4();

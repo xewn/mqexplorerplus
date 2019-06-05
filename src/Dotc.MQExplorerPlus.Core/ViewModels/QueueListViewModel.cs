@@ -24,7 +24,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
     {
         private List<QueueInfo> _originalQueueList;
 
-        internal QueueListViewModel(QueueManagerViewModel parent)
+        public QueueListViewModel(QueueManagerViewModel parent)
         {
             Progress = new RangeProgress();
             BuildCommands();
@@ -52,7 +52,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
         private IQueueManager Qm { get; set; }
         private IObjectProvider ObjectProvider { get; set; }
-        internal Task InitializeAsync(IQueueManager qm, IObjectProvider objProvider)
+        public Task InitializeAsync(IQueueManager qm, IObjectProvider objProvider)
         {
             if (qm == null) throw new ArgumentNullException(nameof(qm));
             if (objProvider == null) throw new ArgumentNullException(nameof(objProvider));

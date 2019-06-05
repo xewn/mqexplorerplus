@@ -95,9 +95,9 @@ namespace Dotc.MQExplorerPlus
         }
     }
 
-    internal class AppSettings : IAppSettings
+    public class AppSettings : IAppSettings
     {
-        internal AppSettings()
+        public AppSettings()
         {
         }
 

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Dotc.MQ.Websphere
 {
-    internal static class ExtensionMethods
+    public static class ExtensionMethods
     {
         public static MqException ToMqException(this IBM.WMQ.MQException ibmException, Action<IDictionary> extraDataLoad = null)
         {

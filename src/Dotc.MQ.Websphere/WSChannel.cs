@@ -21,7 +21,7 @@ namespace Dotc.MQ.Websphere
 {
     public class WsChannel : ObservableObject, IChannel
     {
-        internal WsChannel(WsQueueManager qmOwner, string name)
+        public WsChannel(WsQueueManager qmOwner, string name)
         {
             Debug.Assert(name != null);
             Debug.Assert(qmOwner != null);
@@ -43,7 +43,7 @@ namespace Dotc.MQ.Websphere
         public string ConnectionName
         {
             get { return _connName; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _connName, value);
             }
@@ -54,7 +54,7 @@ namespace Dotc.MQ.Websphere
         public string TransmissionQueue
         {
             get { return _transQueue; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _transQueue, value);
             }
@@ -64,7 +64,7 @@ namespace Dotc.MQ.Websphere
         public ChannelStatus? Status
         {
             get { return _status; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _status, value);
             }
@@ -74,7 +74,7 @@ namespace Dotc.MQ.Websphere
         public bool? IndoubtStatus
         {
             get { return _indoubtStatus; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _indoubtStatus, value);
             }
@@ -84,12 +84,12 @@ namespace Dotc.MQ.Websphere
         public int Type
         {
             get { return _type; }
-            internal set { SetPropertyAndNotify(ref _type, value); }
+            set { SetPropertyAndNotify(ref _type, value); }
         }
 
         public string UniqueId => Invariant($"{Name}@{QueueManager.UniqueId}");
 
-        internal int ChannelTypeCore { get; set; }
+        public int ChannelTypeCore { get; set; }
 
         public bool SupportReset
         {

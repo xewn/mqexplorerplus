@@ -98,7 +98,7 @@ namespace Dotc.MQ.Websphere
             }
         }
 
-        internal static WsQueueManager Clone(WsQueueManager from)
+        public static WsQueueManager Clone(WsQueueManager from)
         {
             var props = (WsConnectionProperties)from.ConnectionProperties;
             if (props.IsLocal)

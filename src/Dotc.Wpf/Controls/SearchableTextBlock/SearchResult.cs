@@ -3,8 +3,8 @@ using ICSharpCode.AvalonEdit.Document;
 
 namespace Dotc.Wpf.Controls.SearchableTextBlock
 {
-    internal class SearchResult : TextSegment
+    public class SearchResult : TextSegment
     {
-        internal Match Data { get; set; }
+        public Match Data { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace Dotc.MQ
         void SetGetStatus(GetPutStatus newStatus);
         void SetPutStatus(GetPutStatus newStatus);
         void DeleteMessages(IList<IMessage> messages, CancellationToken ct, IProgress<int> progress = null);
+        IEnumerable<IMessage> DeleteMessages(int numberOfMessages);
         IEnumerable<IMessage> GetMessages(int numberOfMessages, CancellationToken ct, IProgress<int> progress = null);
         IEnumerable<IMessage> BrowseMessages(int numberOfMessages, CancellationToken ct, byte[] startingPointMessageId = null, IBrowseFilter filter = null, IProgress<int> progress = null);
         void PutMessages(IList<IMessage> messages, CancellationToken ct, IProgress<int> progress = null);

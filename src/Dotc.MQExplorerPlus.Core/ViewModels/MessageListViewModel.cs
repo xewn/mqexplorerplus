@@ -49,6 +49,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
         private object _syncLock = new object();
         private HttpHelper httpHelper = new HttpHelper();
+        private int deleteCount = 5;
         [ImportingConstructor]
         public MessageListViewModel(IMessageListView view, IApplicationController appc)
             : base(view, appc)
@@ -78,7 +79,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
             StatusInfoViewModel = new MessageListStatusInfo(this);
 
-            countdownService = new CountdownService(10);
+            countdownService = new CountdownService(30);
             countdownService.IsOn = true;
             countdownService.Elapsed += CountdownService_Elapsed;
         }
@@ -90,20 +91,29 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
                 return;
             }
             _refresh = true;
-            int row = 5;
-            if (Messages.Count<5)
+            int row = deleteCount;
+            if (Messages.Count == 0)
             {
-                row = Messages.Count;
+                RefreshAsync(false);
+                _refresh = false;
             }
-            var messageInfos = Messages.Take(row).ToList();
-            foreach (var item in messageInfos)
-            {                
-                httpHelper.httpPorsRequest("http://datavin.svnbbs.com/api/app/tcdm/importFlightXmlData", "{ \"xmlContent\": \"" + item.ToString().Replace("\"","\\\"") + "\"}");
+            else
+            {
+                if (Messages.Count < deleteCount)
+                {
+                    row = Messages.Count;
+                }
+                var messageInfos = Messages.Take(row).ToList();
                 var deleteMessages = new List<MessageInfo>();
-                deleteMessages.Add(item);
+                foreach (var item in messageInfos)
+                {
+                    httpHelper.httpPorsRequest("http://datavin.svnbbs.com/api/app/uploadXml/xmlDataToDb", "{ \"xmlContent\": \"" + item.PreviewText.Replace("\"", "\\\"") + "\"}");
+
+                    deleteMessages.Add(item);
+                }
                 DeleteMessagesAsync(deleteMessages);
+                _refresh = false;
             }
-            _refresh = false;
         }
         private IByteCharConverter _currentConverter;
 
@@ -641,14 +651,14 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
                     MemorySearchCache = null;
                     using (var ps = Progress.Start(BrowseLimit.Value, ct))
                     {
-                        using (var internalProgress = ObservableProgress<int>.CreateForUi((count) =>
+                        using (var publicProgress = ObservableProgress<int>.CreateForUi((count) =>
                         {
                             ps.SetTitle($"Browsing messages... [{count}]");
                         }))
                         {
                             ps.SetTitle("Browsing messages...");
 
-                            foreach (var m in Queue.Browse(BrowseLimit.Value, Filter, ps.CancellationToken, internalProgress, lastMessage, CurrentConverter))
+                            foreach (var m in Queue.Browse(BrowseLimit.Value, Filter, ps.CancellationToken, publicProgress, lastMessage, CurrentConverter))
                             {
                                 Messages.Add(m);
                                 ps.ReportNext();
@@ -696,7 +706,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
     public class MessageListStatusInfo : StatusInfoViewModel
     {
-        internal MessageListStatusInfo(MessageListViewModel mlvm) : base()
+        public MessageListStatusInfo(MessageListViewModel mlvm) : base()
         {
             Owner = mlvm;
             WeakEventManager<SelectableItemCollection<MessageInfo>, PropertyChangedEventArgs>

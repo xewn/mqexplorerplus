@@ -189,7 +189,7 @@ namespace Dotc.MQExplorerPlus.Core.Controllers
                 if (automaticOpenOk) return;
             }
 
-            SelectQueueManagerInternal(false, true, recentConn, (qm, qpfx) =>
+            SelectQueueManagerpublic(false, true, recentConn, (qm, qpfx) =>
                 {
                     if (qm != null)
                     {
@@ -219,7 +219,7 @@ namespace Dotc.MQExplorerPlus.Core.Controllers
                 if (automaticOpenOk) return;
             }
 
-            SelectQueueInternal(null, rqc, q =>
+            SelectQueuepublic(null, rqc, q =>
                 {
                     if (q != null)
                     {
@@ -257,7 +257,7 @@ namespace Dotc.MQExplorerPlus.Core.Controllers
                 if (automaticOpenOk) return;
             }
 
-            SelectQueueManagerInternal(true, true, rrqmc, (qm, qpfx) =>
+            SelectQueueManagerpublic(true, true, rrqmc, (qm, qpfx) =>
              {
                  if (qm != null)
                  {
@@ -286,11 +286,11 @@ namespace Dotc.MQExplorerPlus.Core.Controllers
                 if (automaticOpenOk) return;
             }
 
-            SelectQueueManagerInternal(true, false, rrqc, (qm, qpfx) =>
+            SelectQueueManagerpublic(true, false, rrqc, (qm, qpfx) =>
             {
                 if (qm != null)
                 {
-                    SelectQueueInternal(qm, rrqc, q =>
+                    SelectQueuepublic(qm, rrqc, q =>
                         {
                             if (q != null)
                             {
@@ -465,7 +465,7 @@ namespace Dotc.MQExplorerPlus.Core.Controllers
             }
             UserSettings.AddRecentConnection(data);
         }
-        private void SelectQueueManagerInternal(bool remote, bool showObjectFilter, RecentQueueManagerConnection rqmc, Action<IQueueManager, IObjectNameFilter> onOk)
+        private void SelectQueueManagerpublic(bool remote, bool showObjectFilter, RecentQueueManagerConnection rqmc, Action<IQueueManager, IObjectNameFilter> onOk)
         {
             var oqmvm = CompositionHost.GetInstance<OpenQueueManagerViewModel>(); 
             oqmvm.Initialize(remote, showObjectFilter, rqmc);
@@ -482,10 +482,10 @@ namespace Dotc.MQExplorerPlus.Core.Controllers
 
         public void SelectQueue(IQueueManager qm, Action<IQueue> onOk)
         {
-            SelectQueueInternal(qm, null, onOk);
+            SelectQueuepublic(qm, null, onOk);
         }
 
-        private void SelectQueueInternal(IQueueManager qm, IRecentQueueConnection rqc, Action<IQueue> onOk)
+        private void SelectQueuepublic(IQueueManager qm, IRecentQueueConnection rqc, Action<IQueue> onOk)
         {
             var oqvm = CompositionHost.GetInstance<OpenQueueViewModel>(); 
 

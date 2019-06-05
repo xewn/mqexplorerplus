@@ -9,7 +9,7 @@ using IBM.WMQ;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal abstract class PcfParameter : PcfHeader
+    public abstract class PcfParameter : PcfHeader
     {
         public static PcfParameter NextParameter(MQMessage message)
         {

@@ -6,11 +6,11 @@ using ICSharpCode.AvalonEdit.Rendering;
 
 namespace Dotc.Wpf.Controls.SearchableTextBlock
 {
-    internal class SearchResultBackgroundRenderer : IBackgroundRenderer
+    public class SearchResultBackgroundRenderer : IBackgroundRenderer
     {
         public TextSegmentCollection<SearchResult> CurrentResults { get; } = new TextSegmentCollection<SearchResult>();
 
-        internal SearchResultBackgroundRenderer()
+        public SearchResultBackgroundRenderer()
         {
             markerBrush = Brushes.Orange;
             markerPen = new Pen(markerBrush, 1);
@@ -19,7 +19,7 @@ namespace Dotc.Wpf.Controls.SearchableTextBlock
         Brush markerBrush;
         Pen markerPen;
 
-        internal Brush MarkerBrush
+        public Brush MarkerBrush
         {
             get { return markerBrush; }
             set

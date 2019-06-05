@@ -14,19 +14,19 @@ using System.Text;
 
 namespace Dotc.MQ.Websphere
 {
-    internal sealed class WsMessage : ObservableObject, IMessage
+    public sealed class WsMessage : ObservableObject, IMessage
     {
 
 
-        internal MQMessage IbmMessage { get; }
+        public MQMessage IbmMessage { get; }
 
-        internal WsMessage(MQMessage ibmM)
+        public WsMessage(MQMessage ibmM)
         {
             Debug.Assert(ibmM != null);
             IbmMessage = ibmM;
             LoadExtendedProperties();
         }
-        internal WsMessage(MQMessage ibmM, WsQueue queueOwner) : this(ibmM)
+        public WsMessage(MQMessage ibmM, WsQueue queueOwner) : this(ibmM)
         {
             Debug.Assert(queueOwner != null);
             Queue = queueOwner;
@@ -53,7 +53,7 @@ namespace Dotc.MQ.Websphere
             data.AddOrReplace("Connection", this.Queue.QueueManager.ConnectionInfo);
         }
 
-        public int? Index { get; internal set; }
+        public int? Index { get; set; }
 
         public byte[] MessageId
         {

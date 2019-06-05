@@ -20,7 +20,7 @@ namespace Dotc.MQ.Websphere
 {
 
 
-    internal enum OpenQueueMode
+    public enum OpenQueueMode
     {
         ForSet,
         ForBrowse,
@@ -36,11 +36,11 @@ namespace Dotc.MQ.Websphere
     }
 
 
-    internal class WsConnectionProperties : IConnectionProperties
+    public class WsConnectionProperties : IConnectionProperties
     {
-        internal Hashtable CoreData { get; private set; }
+        public Hashtable CoreData { get; private set; }
 
-        internal static WsConnectionProperties Default
+        public static WsConnectionProperties Default
         {
             get
             {
@@ -65,7 +65,10 @@ namespace Dotc.MQ.Websphere
             HostName = hostName;
             Port = port;
             Channel = channel;
-            Transport = WSConfiguration.Current.RemoteConnectionTransport;
+            if (WSConfiguration.Current != null)
+            {
+                Transport = WSConfiguration.Current.RemoteConnectionTransport;
+            }
 
             if (userId == null) return;
             UserId = userId;
@@ -143,7 +146,7 @@ namespace Dotc.MQ.Websphere
         public bool IsLocal { get; private set; }
     }
 
-    internal sealed class WsQueueManager : IQueueManager, IDisposable
+    public sealed class WsQueueManager : IQueueManager, IDisposable
     {
 
         private readonly WsMessageAgent _messageAgent;
@@ -153,7 +156,7 @@ namespace Dotc.MQ.Websphere
         public IConnectionProperties ConnectionProperties { get; }
 
 
-        internal WsQueueManager(MQQueueManager ibmQm, WsConnectionProperties properties)
+        public WsQueueManager(MQQueueManager ibmQm, WsConnectionProperties properties)
         {
             Debug.Assert(ibmQm != null);
             IbmQueueManager = ibmQm;
@@ -258,7 +261,7 @@ namespace Dotc.MQ.Websphere
             }
         }
 
-        internal IList<string> GetChannelNames(WsObjectNameFilter filter)
+        public IList<string> GetChannelNames(WsObjectNameFilter filter)
         {
 
             return RetryOnHCONNError(() =>
@@ -325,7 +328,7 @@ namespace Dotc.MQ.Websphere
             }
         }
 
-        internal IList<string> GetQueueNames(WsObjectNameFilter filter)
+        public IList<string> GetQueueNames(WsObjectNameFilter filter)
         {
             return RetryOnHCONNError(() =>
             {
@@ -383,7 +386,7 @@ namespace Dotc.MQ.Websphere
             }
         }
 
-        internal MQQueue OpenQueueCore(string queueName, OpenQueueMode openMode)
+        public MQQueue OpenQueueCore(string queueName, OpenQueueMode openMode)
         {
 
             Debug.Assert(!string.IsNullOrEmpty(queueName));
@@ -460,9 +463,9 @@ namespace Dotc.MQ.Websphere
         }
 
 
-        #region internal methods used by Queue object
+        #region public methods used by Queue object
 
-        internal void RefreshQueueInfosCore(WsQueue theQueue)
+        public void RefreshQueueInfosCore(WsQueue theQueue)
         {
             RetryOnHCONNError(() =>
             {
@@ -643,7 +646,7 @@ namespace Dotc.MQ.Websphere
 
         }
 
-        internal void TruncateQueueCore(WsQueue theQueue)
+        public void TruncateQueueCore(WsQueue theQueue)
         {
             RetryOnHCONNError(() =>
            {
@@ -653,7 +656,7 @@ namespace Dotc.MQ.Websphere
            });
         }
 
-        internal void SetQueueGetInhibitCore(WsQueue theQueue, GetPutStatus newStatus)
+        public void SetQueueGetInhibitCore(WsQueue theQueue, GetPutStatus newStatus)
         {
             RetryOnHCONNError(() =>
             {
@@ -690,7 +693,7 @@ namespace Dotc.MQ.Websphere
             });
         }
 
-        internal void SetQueuePutInhibitCore(WsQueue theQueue, GetPutStatus newStatus)
+        public void SetQueuePutInhibitCore(WsQueue theQueue, GetPutStatus newStatus)
         {
             RetryOnHCONNError(() =>
             {
@@ -740,7 +743,7 @@ namespace Dotc.MQ.Websphere
             return new WsObjectProvider(this, filter);
         }
 
-        internal void RefreshChannelInfosCore(WsChannel wsChannel)
+        public void RefreshChannelInfosCore(WsChannel wsChannel)
         {
 
             wsChannel.Type = WsChannelType.Unknown;
@@ -900,7 +903,7 @@ namespace Dotc.MQ.Websphere
             });
         }
 
-        internal void StartChannelCore(WsChannel wsChannel)
+        public void StartChannelCore(WsChannel wsChannel)
         {
             RetryOnHCONNError(() =>
             {
@@ -911,7 +914,7 @@ namespace Dotc.MQ.Websphere
         }
 
 
-        internal void StopChannelCore(WsChannel wsChannel, ChannelStopMode action, bool setInactive)
+        public void StopChannelCore(WsChannel wsChannel, ChannelStopMode action, bool setInactive)
         {
             RetryOnHCONNError(() =>
             {
@@ -940,7 +943,7 @@ namespace Dotc.MQ.Websphere
         }
 
 
-        internal void ResetChannelCore(WsChannel wsChannel, int msgSequenceNumber)
+        public void ResetChannelCore(WsChannel wsChannel, int msgSequenceNumber)
         {
             RetryOnHCONNError(() =>
             {
@@ -951,7 +954,7 @@ namespace Dotc.MQ.Websphere
             });
         }
 
-        internal void ResolveChannelCore(WsChannel wsChannel, bool commit)
+        public void ResolveChannelCore(WsChannel wsChannel, bool commit)
         {
             RetryOnHCONNError(() =>
             {
@@ -962,7 +965,7 @@ namespace Dotc.MQ.Websphere
             });
         }
 
-        internal IEnumerable<string> GetListenerNames(WsObjectNameFilter filter)
+        public IEnumerable<string> GetListenerNames(WsObjectNameFilter filter)
         {
             try
             {
@@ -1007,7 +1010,7 @@ namespace Dotc.MQ.Websphere
 
         }
 
-        internal IListener OpenListener(string name, bool autoLoadInfo = false)
+        public IListener OpenListener(string name, bool autoLoadInfo = false)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
@@ -1026,7 +1029,7 @@ namespace Dotc.MQ.Websphere
         }
 
 
-        internal void RefreshListenerInfosCore(WsListener wsListener)
+        public void RefreshListenerInfosCore(WsListener wsListener)
         {
             wsListener.Ip = null;
             wsListener.Port = null;
@@ -1105,7 +1108,7 @@ namespace Dotc.MQ.Websphere
 
         }
 
-        internal void StartListenerCore(WsListener wsListener)
+        public void StartListenerCore(WsListener wsListener)
         {
             RetryOnHCONNError(() =>
             {
@@ -1116,7 +1119,7 @@ namespace Dotc.MQ.Websphere
 
         }
 
-        internal void StopListenerCore(WsListener wsListener)
+        public void StopListenerCore(WsListener wsListener)
         {
             RetryOnHCONNError(() =>
             {
@@ -1127,7 +1130,7 @@ namespace Dotc.MQ.Websphere
 
         }
 
-        internal WsQueueManager Clone()
+        public WsQueueManager Clone()
         {
             return WsQueueManagerFactory.Clone(this);
         }

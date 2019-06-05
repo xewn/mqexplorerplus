@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 namespace Dotc.MQ.Websphere.PCF
 {
     [StructLayout(LayoutKind.Sequential, Size=1)]
-    internal struct Cmqcfc
+    public struct Cmqcfc
     {
         public const int MqcfhStrucLength = 0x24;
         public const int MqcfhVersion1 = 1;
@@ -65,7 +65,7 @@ namespace Dotc.MQ.Websphere.PCF
         public const int MqcmdRegisterPublisher = 0x40;
         public const int MqcmdRegisterSubscriber = 0x41;
         public const int MqcmdRequestUpdate = 0x42;
-        public const int MqcmdBrokerInternal = 0x43;
+        public const int MqcmdBrokerpublic = 0x43;
         public const int MqcmdInquireClusterQMgr = 70;
         public const int MqcmdResumeQMgrCluster = 0x47;
         public const int MqcmdSuspendQMgrCluster = 0x48;
@@ -340,7 +340,7 @@ namespace Dotc.MQ.Websphere.PCF
         public const int MqevoInit = 2;
         public const int MqevoMsg = 3;
         public const int MqevoMqset = 4;
-        public const int MqevoInternal = 5;
+        public const int Mqevopublic = 5;
         public const int MqevrDisabled = 0;
         public const int MqevrEnabled = 1;
         public const int MqfcYes = 1;

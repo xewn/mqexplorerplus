@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace Dotc.MQ.Websphere
 {
-    internal static class WsUtils
+    public static class WsUtils
     {
 
-        internal static Encoding GetEncoding(int ccsid)
+        public static Encoding GetEncoding(int ccsid)
         {
             switch (ccsid)
             {

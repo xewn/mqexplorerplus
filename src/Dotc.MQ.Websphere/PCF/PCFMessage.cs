@@ -11,9 +11,9 @@ using IBM.WMQ;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class PcfMessage : PcfHeader
+    public class PcfMessage : PcfHeader
     {
-        internal enum ParameterErrorType
+        public enum ParameterErrorType
         {
             NotFound,
             WrongType,
@@ -172,7 +172,7 @@ namespace Dotc.MQ.Websphere.PCF
             throw BuildParameterError(parameter, ParameterErrorType.NotFound);// throw new PcfException(2, PcfException.MqrccfCfstParmIdError);
         }
 
-        internal override void Initialize(MQMessage message)
+        public override void Initialize(MQMessage message)
         {
             throw new NotImplementedException();
         }

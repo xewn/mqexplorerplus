@@ -8,7 +8,7 @@ using IBM.WMQ;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class Mqcfh : PcfHeader
+    public class Mqcfh : PcfHeader
     {
         public int Version { get; private set; }
 
@@ -44,7 +44,7 @@ namespace Dotc.MQ.Websphere.PCF
             ParameterCount = paramCount;
         }
 
-        internal override sealed void Initialize(MQMessage message)
+        public override sealed void Initialize(MQMessage message)
         {
             Type = message.ReadInt4();
             StrucLength = message.ReadInt4();

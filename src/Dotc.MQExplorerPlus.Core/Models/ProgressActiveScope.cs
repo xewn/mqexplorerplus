@@ -15,8 +15,8 @@ namespace Dotc.MQExplorerPlus.Core.Models
     {
         private readonly RangeProgress _progress;
         private readonly Timer _delayForLongRunningSetFlag;
-        private readonly IDisposableProgress<int> _internalProgress;
-        internal ProgressActiveScope(RangeProgress progress, LongRunningState isLongRunning)
+        private readonly IDisposableProgress<int> _publicProgress;
+        public ProgressActiveScope(RangeProgress progress, LongRunningState isLongRunning)
         {
             _progress = progress;
 
@@ -35,7 +35,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
                 }
             }
 
-            _internalProgress = ObservableProgress<int>.CreateForUi((value) =>
+            _publicProgress = ObservableProgress<int>.CreateForUi((value) =>
                    {
                        _progress.Current = value;
                    });
@@ -59,7 +59,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
 
         public void Report(int value)
         {
-            _internalProgress.Report(value);
+            _publicProgress.Report(value);
         }
 
         public void ReportNext(int step = 1)
@@ -69,7 +69,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
 
         public IProgress<int> Progress
         {
-            get { return _internalProgress; }
+            get { return _publicProgress; }
         }
 
         public void SetTitle(string title)
@@ -88,7 +88,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
             });
         }
 
-        internal void SetRange(int from, int to)
+        public void SetRange(int from, int to)
         {
             UIDispatcher.Execute(() =>
             {
@@ -106,7 +106,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
             _progress.IsRunningForLong = false;
             if (_delayForLongRunningSetFlag != null)
                 _delayForLongRunningSetFlag.Dispose();
-            _internalProgress.Dispose();
+            _publicProgress.Dispose();
         }
     }
 }

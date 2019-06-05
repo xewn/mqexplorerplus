@@ -52,9 +52,9 @@ namespace Dotc.Common
 
         public class Result
         {
-            public ResultCode ResultCode { get; internal set; }
+            public ResultCode ResultCode { get; set; }
 
-            public uint LastError { get; internal set; }
+            public uint LastError { get; set; }
 
             public bool OK => ResultCode.Success == ResultCode;
         }
@@ -216,7 +216,7 @@ namespace Dotc.Common
                             finally
                             {
                                 // Marshal.StringToHGlobalUni actually allocates with LocalAlloc, thus we should theorhetically use LocalFree to free the memory... 
-                                // ... but Marshal.FreeHGlobal actully uses a corresponding version of LocalFree internally, so this works, even though it doesn't 
+                                // ... but Marshal.FreeHGlobal actully uses a corresponding version of LocalFree publicly, so this works, even though it doesn't 
                                 //  behave exactly as expected. 
                                 Marshal.FreeHGlobal(source);
                             }

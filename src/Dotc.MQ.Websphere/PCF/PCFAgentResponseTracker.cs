@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal abstract class PCFAgentResponseTracker
+    public abstract class PCFAgentResponseTracker
     {
-        internal abstract bool IsLast(MQMessage message);
+        public abstract bool IsLast(MQMessage message);
     }
 
-    internal class PCFAgentResponseTrackerNon390 : PCFAgentResponseTracker
+    public class PCFAgentResponseTrackerNon390 : PCFAgentResponseTracker
     {
 
         private Mqcfh cfh = new Mqcfh();
-        internal override bool IsLast(MQMessage message)
+        public override bool IsLast(MQMessage message)
         {
             message.SkipBytes(20);
             var end = message.ReadInt4() != 0;
@@ -37,12 +37,12 @@ namespace Dotc.MQ.Websphere.PCF
         }
     }
 
-    internal class PCFAgentResponseTracker390 : PCFAgentResponseTracker
+    public class PCFAgentResponseTracker390 : PCFAgentResponseTracker
     {
         private Mqcfh cfh = new Mqcfh();
         private HashSet<string> set = new HashSet<string>();
 
-        internal override bool IsLast(MQMessage message)
+        public override bool IsLast(MQMessage message)
         {
             cfh.Initialize(message);
 

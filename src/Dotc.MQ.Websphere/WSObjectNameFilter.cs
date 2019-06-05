@@ -9,9 +9,9 @@ using System;
 namespace Dotc.MQ.Websphere
 {
 
-    internal sealed class WsObjectNameFilter : IObjectNameFilter
+    public sealed class WsObjectNameFilter : IObjectNameFilter
     {
-        internal WsObjectNameFilter(string namePrefix)
+        public WsObjectNameFilter(string namePrefix)
         {
             NamePrefix = new [] { namePrefix };
         }
@@ -43,7 +43,7 @@ namespace Dotc.MQ.Websphere
     public class WsSystemObjectNameFilter : IObjectNameFilter
     {
 
-        internal WsSystemObjectNameFilter()
+        public WsSystemObjectNameFilter()
         {
             NamePrefix = new[] {"SYSTEM."};
         }
@@ -55,17 +55,17 @@ namespace Dotc.MQ.Websphere
             return IsSystemQueue(name);
         }
 
-        internal static bool IsSystemQueue(string name)
+        public static bool IsSystemQueue(string name)
         {
             return (name.StartsWith("SYSTEM.", StringComparison.Ordinal));
         }
 
-        internal static bool IsSystemChannel(string name)
+        public static bool IsSystemChannel(string name)
         {
             return (name.StartsWith("SYSTEM.", StringComparison.Ordinal));
         }
 
-        internal static bool IsSystemListener(string name)
+        public static bool IsSystemListener(string name)
         {
             return (name.StartsWith("SYSTEM.", StringComparison.Ordinal));
         }

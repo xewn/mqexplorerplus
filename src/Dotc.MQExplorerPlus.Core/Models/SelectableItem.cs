@@ -29,12 +29,12 @@ namespace Dotc.MQExplorerPlus.Core.Models
             }
         }
 
-        internal void Attach(ISelectedEventHandler eventHandler)
+        public void Attach(ISelectedEventHandler eventHandler)
         {
             _eventHandler = eventHandler;
         }
 
-        internal void Detach()
+        public void Detach()
         {
             _eventHandler = null;
         }

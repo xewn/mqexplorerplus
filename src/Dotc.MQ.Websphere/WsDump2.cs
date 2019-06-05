@@ -19,14 +19,14 @@ using System.Collections;
 
 namespace Dotc.MQ.Websphere
 {
-    internal class WsDump2 : IDump
+    public class WsDump2 : IDump
     {
         private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private readonly Encoding _encoding = Encoding.UTF8;
 
         private readonly WsQueue _qSource;
 
-        internal WsDump2(WsQueue queue)
+        public WsDump2(WsQueue queue)
         {
             _qSource = queue ?? throw new ArgumentNullException(nameof(queue));
         }
@@ -679,19 +679,19 @@ namespace Dotc.MQ.Websphere
     }
 
 
-    internal sealed class DumpReader
+    public sealed class DumpReader
     {
         private StreamReader _reader;
-        internal DumpReader(StreamReader reader)
+        public DumpReader(StreamReader reader)
         {
             _reader = reader;
         }
 
-        internal int LineNo { get; private set; }
+        public int LineNo { get; private set; }
 
-        internal string Line { get; private set; }
+        public string Line { get; private set; }
 
-        internal bool ReadLine(bool force, bool all)
+        public bool ReadLine(bool force, bool all)
         {
             if (!force && !string.IsNullOrEmpty(Line))
                 return true;
@@ -713,16 +713,16 @@ namespace Dotc.MQ.Websphere
         }
     }
 
-    internal sealed class MQReader : IDisposable
+    public sealed class MQReader : IDisposable
     {
         private MQQueue _IbmQueue;
         private WsQueue _queue;
 
-        internal bool UseTransaction { get; }
-        internal IdMatching IdFilter { get; }
-        internal Conversion Converter { get; }
+        public bool UseTransaction { get; }
+        public IdMatching IdFilter { get; }
+        public Conversion Converter { get; }
 
-        internal MQReader(WsQueue queue, bool useTransaction, IdMatching filter, Conversion converter)
+        public MQReader(WsQueue queue, bool useTransaction, IdMatching filter, Conversion converter)
         {
             _queue = queue;
             IdFilter = filter;
@@ -732,14 +732,14 @@ namespace Dotc.MQ.Websphere
             _IbmQueue = queue.OpenQueueCore(oqm);
         }
 
-        internal void Commit()
+        public void Commit()
         {
             _queue.QueueManager.Commit();
         }
 
         public int CurrentIndex { get; private set; }
 
-        internal bool Read(ref MQMessage msg, bool force = false)
+        public bool Read(ref MQMessage msg, bool force = false)
         {
             var gmo = new MQGetMessageOptions()
             {
@@ -815,7 +815,7 @@ namespace Dotc.MQ.Websphere
         }
     }
 
-    internal sealed class DumpWriter
+    public sealed class DumpWriter
     {
         private readonly CultureInfo _culture;
         private readonly Encoding _encoding;
@@ -823,7 +823,7 @@ namespace Dotc.MQ.Websphere
         private StreamWriter _sw;
         private DumpCreationSettings _settings;
 
-        internal DumpWriter(StreamWriter output, DumpCreationSettings settings, string qmName, string qName, CultureInfo ci, Encoding encoding)
+        public DumpWriter(StreamWriter output, DumpCreationSettings settings, string qmName, string qName, CultureInfo ci, Encoding encoding)
         {
             _culture = ci;
             _encoding = encoding;
@@ -847,7 +847,7 @@ namespace Dotc.MQ.Websphere
             _sw.WriteLine();
         }
 
-        internal void WriteMessage(MQMessage message)
+        public void WriteMessage(MQMessage message)
         {
             Counter++;
 

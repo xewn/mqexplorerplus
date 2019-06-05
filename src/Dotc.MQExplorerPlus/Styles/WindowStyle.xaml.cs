@@ -13,7 +13,7 @@ using System.Windows.Interop;
 
 namespace Dotc.MQExplorerPlus.Styles
 {
-    internal static class LocalExtensions
+    public static class LocalExtensions
     {
         public static void ForWindowFromTemplate(this object templateFrameworkElement, Action<Window> action)
         {

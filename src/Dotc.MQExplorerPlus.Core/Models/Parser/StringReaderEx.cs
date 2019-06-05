@@ -13,7 +13,7 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
     public sealed class StringReaderEx : IDisposable
     {
 
-        private readonly StringReader _internalReader;
+        private readonly StringReader _publicReader;
         private readonly System.Reflection.FieldInfo _posField;
 
         private readonly int _length;
@@ -22,14 +22,14 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
         {
             if (data == null) throw new ArgumentNullException(nameof(data)); 
             _length = data.Length;
-            _internalReader = new StringReader(data);
+            _publicReader = new StringReader(data);
             _posField = typeof(StringReader).GetField("_pos", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.GetField);
             GC.SuppressFinalize(this);
         }
 
         public int GetPosition()
         {
-            return (int)_posField.GetValue(_internalReader);
+            return (int)_posField.GetValue(_publicReader);
         }
 
         private string ReadForward(int count, out int missingCount)
@@ -39,7 +39,7 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
             missingCount = (start + count) - _length;
             if (missingCount <= 0)
             {
-                _internalReader.ReadBlock(buffer, 0, count);
+                _publicReader.ReadBlock(buffer, 0, count);
                 return new string(buffer);
             }
             else
@@ -65,17 +65,17 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
 
         public string ReadToEnd()
         {
-            return _internalReader.ReadToEnd();
+            return _publicReader.ReadToEnd();
         }
 
         public int Peek()
         {
-            return _internalReader.Peek();
+            return _publicReader.Peek();
         }
 
         public void Dispose()
         {
-            _internalReader.Dispose();
+            _publicReader.Dispose();
         }
     }
 }

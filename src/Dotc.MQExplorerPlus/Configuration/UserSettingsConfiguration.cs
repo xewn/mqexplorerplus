@@ -68,7 +68,7 @@ namespace Dotc.MQExplorerPlus.Configuration
             }
         }
 
-        internal void Set(IUserSettings settings)
+        public void Set(IUserSettings settings)
         {
             General.AutoRefreshInterval = settings.AutoRefreshInterval;
             Messages.BrowseLimit = settings.BrowseLimit;
@@ -77,7 +77,7 @@ namespace Dotc.MQExplorerPlus.Configuration
             Connection.Channel = settings.Channel;
             Connection.MaxRecentConnections = settings.MaxRecentConnections;
             Queues.DepthWarningThreshold = settings.QueueDepthWarningThreshold;
-            SetRecentConnectionsInternal(settings.RecentConnections);
+            SetRecentConnectionspublic(settings.RecentConnections);
         }
 
         public void Serialize(XmlWriter writer)
@@ -106,10 +106,10 @@ namespace Dotc.MQExplorerPlus.Configuration
 
         public ObservableCollection<RecentConnection> RecentConnections
         {
-            get { return new ObservableCollection<RecentConnection>(GetRecentConnectionsInternal()); }
+            get { return new ObservableCollection<RecentConnection>(GetRecentConnectionspublic()); }
         }
 
-        private List<RecentConnection> GetRecentConnectionsInternal()
+        private List<RecentConnection> GetRecentConnectionspublic()
         {
             var result = new List<RecentConnection>();
             int index = 0;
@@ -122,7 +122,7 @@ namespace Dotc.MQExplorerPlus.Configuration
             return result;
         }
 
-        private void SetRecentConnectionsInternal(ObservableCollection<RecentConnection> rc)
+        private void SetRecentConnectionspublic(ObservableCollection<RecentConnection> rc)
         {
             Connection.RecentList.Clear();
             foreach (RecentConnection x in rc)

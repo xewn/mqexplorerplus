@@ -145,13 +145,13 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
             get { return !LocalBusy; }
         }
 
-        internal Task ExecuteAsync(Action action)
+        public Task ExecuteAsync(Action action)
         {
             return ExecuteAsync((ct) => action(), false);
         }
 
 
-        internal Task ExecuteAsync(Action<CancellationToken> action, bool supportCancellation = true)
+        public Task ExecuteAsync(Action<CancellationToken> action, bool supportCancellation = true)
         {
             bool ownerOfBusy = (LocalBusy == false);
 
@@ -197,7 +197,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
         }
 
-        internal bool Execute(Action action)
+        public bool Execute(Action action)
         {
             bool ownerOfBusy = (LocalBusy == false);
 

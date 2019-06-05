@@ -14,7 +14,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
     public sealed class QueueListStatusInfo : StatusInfoViewModel
     {
-        internal QueueListStatusInfo(QueueListViewModel qlvm) : base()
+        public QueueListStatusInfo(QueueListViewModel qlvm) : base()
         {
             Owner = qlvm;
             WeakEventManager<SelectableItemCollection<QueueInfo>, PropertyChangedEventArgs>

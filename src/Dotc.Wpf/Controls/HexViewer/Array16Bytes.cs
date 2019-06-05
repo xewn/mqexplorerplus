@@ -6,7 +6,7 @@ namespace Dotc.Wpf.Controls.HexViewer
 {
     public class Array16Bytes : INotifyPropertyChanged
     {
-        internal Array16Bytes(HexViewerModel owner, int rowIndex)
+        public Array16Bytes(HexViewerModel owner, int rowIndex)
         {
             Owner = owner;
             RowIndex = rowIndex;
@@ -76,7 +76,7 @@ namespace Dotc.Wpf.Controls.HexViewer
             //Chars = new string(Owner.Data.Skip(Offset).Take(RowSize).Select(b => Owner.CharConverter.ToChar(b)).ToArray());
         }
 
-        internal void ConverterChanged()
+        public void ConverterChanged()
         {
             GenerateChars();
             OnPropertyChanged("Chars");

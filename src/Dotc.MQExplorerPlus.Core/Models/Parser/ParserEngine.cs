@@ -146,7 +146,7 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
 
                 try
                 {
-                    ParseMessageInternal(Result.Nodes, context);
+                    ParseMessagepublic(Result.Nodes, context);
                 }
                 catch (ParserException)
                 {
@@ -164,7 +164,7 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
 
         }
 
-        private void ParseMessageInternal(ParsingResultNodeList nodes, ParsingContext context)
+        private void ParseMessagepublic(ParsingResultNodeList nodes, ParsingContext context)
         {
             foreach (var node in nodes)
             {
@@ -172,7 +172,7 @@ namespace Dotc.MQExplorerPlus.Core.Models.Parser
                 node.Parse(context);
                 if (node.Children != null && node.Children.Count > 0)
                 {
-                    ParseMessageInternal(node.Children, context);
+                    ParseMessagepublic(node.Children, context);
                 }
             }
         }

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9C615D1D-E9DA-4D43-BBCD-E663A5685963}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Dotc.Mq.Console</RootNamespace>
+    <AssemblyName>Dotc.Mq.Console</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="amqmdnet, Version=9.0.0.0, Culture=neutral, PublicKeyToken=dd3cb1c9aae9ec97, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Libs\amqmdnet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OpenQueueManager.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dotc.Common\Dotc.Common.csproj">
+      <Project>{8a198528-4367-4670-8f24-863404fa0a9c}</Project>
+      <Name>Dotc.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dotc.MQ.Websphere\Dotc.MQ.Websphere.csproj">
+      <Project>{4e9223b9-1bc2-45ea-97e0-ba0e1d7a1961}</Project>
+      <Name>Dotc.MQ.Websphere</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dotc.MQExplorerPlus.Core\Dotc.MQExplorerPlus.Core.csproj">
+      <Project>{287b10c6-e27d-4e64-b2ab-7eb97b1e66ed}</Project>
+      <Name>Dotc.MQExplorerPlus.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dotc.MQ\Dotc.MQ.csproj">
+      <Project>{f567819e-199b-48ce-8ff9-cc1d803b3abb}</Project>
+      <Name>Dotc.MQ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dotc.Mvvm\Dotc.Mvvm.csproj">
+      <Project>{aae57d58-ca38-49c5-8f3c-91859d79cc90}</Project>
+      <Name>Dotc.Mvvm</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -17,7 +17,7 @@ using System.Windows.Data;
 namespace Dotc.MQExplorerPlus.Core.Models
 {
 
-    internal interface ISelectedEventHandler
+    public interface ISelectedEventHandler
     {
         void SelectedChanged(SelectableItem sender);
     }

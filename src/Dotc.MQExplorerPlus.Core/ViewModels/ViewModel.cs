@@ -94,7 +94,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
             App.MessageService.ShowError(App.ShellService.ShellView, FormatErrorMessage(message, ex));
         }
 
-        internal bool ExecuteGuarded(Action act)
+        public bool ExecuteGuarded(Action act)
         {
             if (act == null) return true;
 

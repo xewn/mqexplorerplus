@@ -18,7 +18,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 {
     public sealed class ListenerListStatusInfo : StatusInfoViewModel
     {
-        internal ListenerListStatusInfo(ListenerListViewModel owner) : base()
+        public ListenerListStatusInfo(ListenerListViewModel owner) : base()
         {
             Owner = owner;
             WeakEventManager<SelectableItemCollection<ListenerInfo>, PropertyChangedEventArgs>

@@ -14,7 +14,7 @@ namespace Dotc.MQExplorerPlus.Core.ViewModels
 
     public sealed class ChannelListStatusInfo : StatusInfoViewModel
     {
-        internal ChannelListStatusInfo(ChannelListViewModel clvm) : base()
+        public ChannelListStatusInfo(ChannelListViewModel clvm) : base()
         {
             Owner = clvm;
             WeakEventManager<SelectableItemCollection<ChannelInfo>, PropertyChangedEventArgs>

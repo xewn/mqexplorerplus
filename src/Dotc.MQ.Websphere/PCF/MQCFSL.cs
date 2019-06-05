@@ -11,7 +11,7 @@ using System.Globalization;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class Mqcfsl : PcfParameter
+    public class Mqcfsl : PcfParameter
     {
         public  int CodedCharSetId { get; private set; }
         private int _count;
@@ -53,7 +53,7 @@ namespace Dotc.MQ.Websphere.PCF
             return _strings;
         }
 
-        internal override sealed void Initialize(MQMessage message)
+        public override sealed void Initialize(MQMessage message)
         {
             Type = message.ReadInt4();
             StrucLength = message.ReadInt4();

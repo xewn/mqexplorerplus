@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Dotc.MQ.Websphere.PCF
 {
-    internal class Mqcfbs : PcfParameter
+    public class Mqcfbs : PcfParameter
     {
         private byte[] byteVal;
         private int stringLength;
@@ -34,7 +34,7 @@ namespace Dotc.MQ.Websphere.PCF
         public override object GetValue() =>
             this.byteVal;
 
-        internal override sealed void Initialize(MQMessage message)
+        public override sealed void Initialize(MQMessage message)
         {
             base.Type = message.ReadInt4();
             base.StrucLength = message.ReadInt4();

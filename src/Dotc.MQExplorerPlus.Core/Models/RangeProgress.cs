@@ -29,34 +29,34 @@ namespace Dotc.MQExplorerPlus.Core.Models
 
         public ProgressActiveScope Start(LongRunningState isLongRunning = LongRunningState.Detect)
         {
-            return StartInternal(null, null, CancellationToken.None, isLongRunning);
+            return Startpublic(null, null, CancellationToken.None, isLongRunning);
         }
 
         public ProgressActiveScope Start(CancellationToken ct, LongRunningState isLongRunning = LongRunningState.Detect)
         {
-            return StartInternal(null, null, ct, isLongRunning);
+            return Startpublic(null, null, ct, isLongRunning);
         }
         public ProgressActiveScope Start(int fromRange, int toRange, LongRunningState isLongRunning = LongRunningState.Detect)
         {
-            return StartInternal(fromRange, toRange, CancellationToken.None, isLongRunning);
+            return Startpublic(fromRange, toRange, CancellationToken.None, isLongRunning);
         }
 
         public ProgressActiveScope Start(int fromRange, int toRange, CancellationToken ct, LongRunningState isLongRunning = LongRunningState.Detect)
         {
-            return StartInternal(fromRange, toRange, ct, isLongRunning);
+            return Startpublic(fromRange, toRange, ct, isLongRunning);
         }
 
         public ProgressActiveScope Start(int toRange, LongRunningState isLongRunning = LongRunningState.Detect)
         {
-            return StartInternal(0, toRange, CancellationToken.None, isLongRunning);
+            return Startpublic(0, toRange, CancellationToken.None, isLongRunning);
         }
 
         public ProgressActiveScope Start(int toRange, CancellationToken ct, LongRunningState isLongRunning = LongRunningState.Detect)
         {
-            return StartInternal(0, toRange, ct, isLongRunning);
+            return Startpublic(0, toRange, ct, isLongRunning);
         }
 
-        private ProgressActiveScope StartInternal(int? fromRange, int? toRange, CancellationToken ct, LongRunningState isLongRunning)
+        private ProgressActiveScope Startpublic(int? fromRange, int? toRange, CancellationToken ct, LongRunningState isLongRunning)
         {
             if (fromRange.HasValue && toRange.HasValue)
             {
@@ -80,7 +80,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
             return new ProgressActiveScope(this, isLongRunning);
         }
 
-        internal void SetRange(int from, int to)
+        public void SetRange(int from, int to)
         {
             From = from;
             To = to;
@@ -150,7 +150,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
         public bool Active
         {
             get { return _active; }
-            internal set
+            set
             {
                 SetPropertyAndNotify(ref _active, value);
                 if (value == false)

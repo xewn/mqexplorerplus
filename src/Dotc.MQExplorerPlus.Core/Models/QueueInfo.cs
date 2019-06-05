@@ -133,7 +133,7 @@ namespace Dotc.MQExplorerPlus.Core.Models
             QueueSource.ForwardMessages(list.Select(m => m.MessageSource).ToList(), destinationQ,ct, progress);
         }
 
-        internal void Empty(bool withTruncate)
+        public void Empty(bool withTruncate)
         {
             QueueSource.ClearQueue(withTruncate);
         }

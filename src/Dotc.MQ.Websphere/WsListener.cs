@@ -22,7 +22,7 @@ namespace Dotc.MQ.Websphere
     public class WsListener : ObservableObject, IListener
     {
 
-        internal WsListener(WsQueueManager qmOwner, string name)
+        public WsListener(WsQueueManager qmOwner, string name)
         {
             Debug.Assert(name != null);
             Debug.Assert(qmOwner != null);
@@ -53,21 +53,21 @@ namespace Dotc.MQ.Websphere
         public string Ip
         {
             get { return _ip; }
-            internal set { SetPropertyAndNotify(ref _ip, value); }
+            set { SetPropertyAndNotify(ref _ip, value); }
         }
 
         private int? _port;
         public int? Port
         {
             get { return _port; }
-            internal set { SetPropertyAndNotify(ref _port, value); }
+            set { SetPropertyAndNotify(ref _port, value); }
         }
 
         private string _protocol;
         public string Protocol
         {
             get { return _protocol; }
-            internal set { SetPropertyAndNotify(ref _protocol, value); }
+            set { SetPropertyAndNotify(ref _protocol, value); }
         }
 
 
@@ -75,7 +75,7 @@ namespace Dotc.MQ.Websphere
         public ListenerStatus? Status
         {
             get { return _status; }
-            internal set { SetPropertyAndNotify(ref _status, value); }
+            set { SetPropertyAndNotify(ref _status, value); }
         }
 
         public string UniqueId => Invariant($"{Name}@{QueueManager.UniqueId}");

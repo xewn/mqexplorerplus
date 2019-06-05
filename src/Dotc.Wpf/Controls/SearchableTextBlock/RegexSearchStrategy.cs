@@ -7,12 +7,12 @@ using ICSharpCode.AvalonEdit.Document;
 
 namespace Dotc.Wpf.Controls.SearchableTextBlock
 {
-    internal class RegexSearchStrategy
+    public class RegexSearchStrategy
     {
         readonly Regex searchPattern; 
  		readonly bool matchWholeWords; 
  		 
- 		internal RegexSearchStrategy(Regex searchPattern, bool matchWholeWords)
+ 		public RegexSearchStrategy(Regex searchPattern, bool matchWholeWords)
  		{ 
  			if (searchPattern == null) 
  				throw new ArgumentNullException(nameof(searchPattern)); 
@@ -20,7 +20,7 @@ namespace Dotc.Wpf.Controls.SearchableTextBlock
  			this.matchWholeWords = matchWholeWords; 
  		}
 
-        internal IEnumerable<SearchResult> FindAll(ITextSource document, int offset, int length)
+        public IEnumerable<SearchResult> FindAll(ITextSource document, int offset, int length)
         {
             int endOffset = offset + length;
             foreach (Match result in searchPattern.Matches(document.Text))
@@ -45,7 +45,7 @@ namespace Dotc.Wpf.Controls.SearchableTextBlock
  			return TextUtilities.GetNextCaretPosition(document, offset - 1, LogicalDirection.Forward, CaretPositioningMode.WordBorder) == offset; 
  		} 
  		 
- 		internal SearchResult FindNext(ITextSource document, int offset, int length)
+ 		public SearchResult FindNext(ITextSource document, int offset, int length)
  		{ 
  			return FindAll(document, offset, length).FirstOrDefault(); 
  		} 

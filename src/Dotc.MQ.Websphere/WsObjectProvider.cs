@@ -16,7 +16,7 @@ namespace Dotc.MQ.Websphere
     public class WsObjectProvider : IObjectProvider
     {
 
-        internal WsObjectProvider(WsQueueManager qm, IObjectNameFilter filter)
+        public WsObjectProvider(WsQueueManager qm, IObjectNameFilter filter)
         {
             Filter = filter ?? throw new ArgumentNullException(nameof(filter));
             QueueManager = qm ?? throw new ArgumentNullException(nameof(qm));
@@ -33,7 +33,7 @@ namespace Dotc.MQ.Websphere
             }
         }
 
-        internal WsQueueManager QueueManager { get; }
+        public WsQueueManager QueueManager { get; }
         public IObjectNameFilter Filter { get; }
 
         public bool SupportChannels  {get;}

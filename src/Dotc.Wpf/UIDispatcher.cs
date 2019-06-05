@@ -8,11 +8,11 @@ namespace Dotc.Wpf
     public static class UIDispatcher
     {
 
-        private static Dispatcher _internalUiDispatcher;
+        private static Dispatcher _publicUiDispatcher;
         public static Dispatcher MainDispatcher
         {
-            get { return _internalUiDispatcher ?? Application.Current?.Dispatcher; }
-            set { _internalUiDispatcher = value; }
+            get { return _publicUiDispatcher ?? Application.Current?.Dispatcher; }
+            set { _publicUiDispatcher = value; }
         }
 
         
